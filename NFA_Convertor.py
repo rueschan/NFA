@@ -1,4 +1,5 @@
 dic = {}
+initialState = ""
 
 
 def main():
@@ -13,13 +14,17 @@ def main():
         dic = lineToDictionary(line)
 
         findTransitions()
-        print dic
 
         # formatoBonito()
-        formato = formatoBonito()
+        formato = format()
         sizeFormato = len(formato)
         count = 0
         c = 0
+
+        formato = sortInitialState(formato)
+
+        final = ""
+        finished = False
         for a in formato:
             # file_write.write()
             toprint = str(a).replace("'", "")  # .replace(" ","")
@@ -28,17 +33,47 @@ def main():
             final = ""
             if count == 0:
                 final += "{"
-            for i in toprint:
-
-                if i == ")":
-                    final += "),"
-                else:
+            elif count == sizeFormato - 1:
+                for i in toprint:
                     final += i
-            count += 1
-            file_write.write(final)
-            # print dic
+                    finished = True
 
-def formatoBonito():
+            if not finished:
+                for i in toprint:
+                    if i == ")":
+                        final += "),"
+                    else:
+                        final += i
+                count += 1
+                file_write.write(final)
+
+            print final
+
+        final += "}"
+        file_write.write(final)
+
+
+def sortInitialState(lista):
+
+    pos = 0
+    for a in lista:
+        if a[1] == initialState:
+
+            if pos == 0:
+                temp = a
+                a = lista[0]
+                lista[0] = temp
+                pos += 1
+
+            elif pos == 1:
+                temp = a
+                a = lista[1]
+                lista[1] = temp
+                pos = -1
+
+    return lista
+
+def format():
     lista_diccionario = []
     lista_dfa = []
     for state in dic:
@@ -58,12 +93,14 @@ def formatoBonito():
 
     return lista_dfa
 
+
 def lineToDictionary(line):
     dic = {}
     flag = True
     signal = -1
     origin = ""
 
+    initial = True
     for letter in line:
         if letter.isdigit():
             flag = True
@@ -74,6 +111,11 @@ def lineToDictionary(line):
         elif flag and letter.isalpha():
             flag = False
             origin = letter
+
+            if initial:
+                global initialState
+                initialState = letter
+                initial = False
 
             if not dic.has_key(origin):
                 des = [[], []]
@@ -90,14 +132,10 @@ def lineToDictionary(line):
                 temp = dic.get(origin)
                 temp[1].append(letter)
                 dic[origin] = temp
-    print "DICTO"
-    print dic
     return dic
 
 
 def findTransitions():
-
-    print "FIND TRANSITION"
 
     arr = dic.items()
     # print arr
@@ -130,7 +168,6 @@ def findTransitions():
                             temp[1].append(i)
 
                 dic[key] = temp
-                print dic
                 findTransitions()
                 return
     return
