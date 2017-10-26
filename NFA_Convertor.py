@@ -50,7 +50,7 @@ def main():
             print final
 
         final += "}"
-        file_write.write(final)
+        file_write.write(final+"\n")
 
 
 def sortInitialState(lista):
