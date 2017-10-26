@@ -39,24 +39,24 @@ def main():
             # print dic
 
 def formatoBonito():
-    lista = []
-    listaDfa = []
+    lista_diccionario = []
+    lista_dfa = []
     for state in dic:
         destino = dic.get(state)
         destino_0 = "0", state, destino[0]
-        lista.append(destino_0)
+        lista_diccionario.append(destino_0)
         destino_1 = "1", state, destino[1]
-        lista.append(destino_1)
+        lista_diccionario.append(destino_1)
 
     strBuffer = ""
-    for array_destiny in lista:
+    for array_destiny in lista_diccionario:
         for character_destiny in array_destiny[2]:
             strBuffer += character_destiny
         estadoNuevo = array_destiny[0], array_destiny[1], strBuffer
-        listaDfa.append(estadoNuevo)
+        lista_dfa.append(estadoNuevo)
         strBuffer = ""
 
-    return listaDfa
+    return lista_dfa
 
 def lineToDictionary(line):
     dic = {}
