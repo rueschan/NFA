@@ -6,6 +6,7 @@ def main():
 
     # fileName = raw_input("Ingrese el nombre del archivo:")
     file = open(NAME, 'r')
+    file_write = open("output.txt", "w")
 
     for line in file:
         global dic
@@ -14,6 +15,48 @@ def main():
         findTransitions()
         print dic
 
+        # formatoBonito()
+        formato = formatoBonito()
+        sizeFormato = len(formato)
+        count = 0
+        c = 0
+        for a in formato:
+            # file_write.write()
+            toprint = str(a).replace("'", "")  # .replace(" ","")
+
+            sizePrint = len(toprint)
+            final = ""
+            if count == 0:
+                final += "{"
+            for i in toprint:
+
+                if i == ")":
+                    final += "),"
+                else:
+                    final += i
+            count += 1
+            file_write.write(final)
+            # print dic
+
+def formatoBonito():
+    lista = []
+    listaDfa = []
+    for state in dic:
+        destino = dic.get(state)
+        destino_0 = "0", state, destino[0]
+        lista.append(destino_0)
+        destino_1 = "1", state, destino[1]
+        lista.append(destino_1)
+
+    strBuffer = ""
+    for array_destiny in lista:
+        for character_destiny in array_destiny[2]:
+            strBuffer += character_destiny
+        estadoNuevo = array_destiny[0], array_destiny[1], strBuffer
+        listaDfa.append(estadoNuevo)
+        strBuffer = ""
+
+    return listaDfa
 
 def lineToDictionary(line):
     dic = {}
