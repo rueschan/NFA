@@ -1,1 +1,2 @@
 {(0, p, pq),(1, p, p),(0, ps, pqs),(1, ps, ps),(0, pq, pqr),(1, pq, pr),(0, pqrs, pqrs),(1, pqrs, prs),(0, pqr, pqrs),(1, pqr, pr),(0, pqs, pqrs),(1, pqs, prs),(0, q, r),(1, q, r),(0, p, pq),(1, p, p),(0, s, s),(1, s, s),(0, r, s),(1, r, ),(0, prs, pqs),(1, prs, ps)}
+{(a, p, pq),(b, p, p),(a, ps, pqs),(b, ps, ps),(a, pq, pqr),(b, pq, pr),(a, pqrs, pqrs),(b, pqrs, prs),(a, pqr, pqrs),(b, pqr, pr),(a, pqs, pqrs),(b, pqs, prs),(a, q, r),(b, q, r),(a, p, pq),(b, p, p),(a, s, s),(b, s, s),(a, r, s),(b, r, ),(a, prs, pqs),(b, prs, ps)}

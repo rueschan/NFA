@@ -1,17 +1,30 @@
+#encoding: UTF-8
 dic = {}
 initialState = ""
+indexes = ""
 
 
 def main():
     NAME = "input.txt"
 
-    # fileName = raw_input("Ingrese el nombre del archivo:")
-    file = open(NAME, 'r')
+    while True:
+        NAME = raw_input("Ingrese el nombre del archivo:")
+
+        try:
+            file_read = open(NAME, 'r')
+            break
+        except IOError:
+            print "El archivo no se encuentra en el directorio. Ingrese un archivo valido..."
+
     file_write = open("output.txt", "w")
 
-    for line in file:
+
+    print "\nNFAs en el archivo leído:"
+    for line in file_read:
+        print line
         global dic
         dic = lineToDictionary(line)
+        # print dic
 
         findTransitions()
 
@@ -47,9 +60,7 @@ def main():
                 count += 1
                 file_write.write(final)
 
-            print final
-
-        final += "}"
+        final += "}\n"
         file_write.write(final)
 
 
@@ -78,10 +89,17 @@ def format():
     lista_dfa = []
     for state in dic:
         destino = dic.get(state)
-        destino_0 = "0", state, destino[0]
-        lista_diccionario.append(destino_0)
-        destino_1 = "1", state, destino[1]
-        lista_diccionario.append(destino_1)
+        global indexes
+        if indexes in ["a", "b"]:
+            destino_0 = "a", state, destino[0]
+            lista_diccionario.append(destino_0)
+            destino_1 = "b", state, destino[1]
+            lista_diccionario.append(destino_1)
+        elif indexes in ["0", "1"]:
+            destino_0 = "0", state, destino[0]
+            lista_diccionario.append(destino_0)
+            destino_1 = "1", state, destino[1]
+            lista_diccionario.append(destino_1)
 
     strBuffer = ""
     for array_destiny in lista_diccionario:
@@ -97,14 +115,23 @@ def format():
 def lineToDictionary(line):
     dic = {}
     flag = True
-    signal = -1
+    signal = ""
     origin = ""
 
     initial = True
+    isKey = False
     for letter in line:
-        if letter.isdigit():
+
+        if letter == "(":
+            isKey = True
+            continue
+
+        if isKey:
             flag = True
             signal = letter
+            isKey = False
+            global indexes
+            indexes = signal
 
             continue
 
@@ -124,7 +151,7 @@ def lineToDictionary(line):
             continue
 
         elif letter.isalpha():
-            if signal == "0":
+            if signal == "0" or signal == "a":
                 temp = dic.get(origin)
                 temp[0].append(letter)
                 dic[origin] = temp
