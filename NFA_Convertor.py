@@ -1,11 +1,14 @@
 #encoding: UTF-8
+
+# Jose Antonio Malo de la Peña A01371454
+# Rubén Escalante Chan A01370880
+
 dic = {}
 initialState = ""
 indexes = ""
 
 
 def main():
-    NAME = "input.txt"
 
     while True:
         NAME = raw_input("Ingrese el nombre del archivo:")
@@ -19,30 +22,26 @@ def main():
     file_write = open("output.txt", "w")
 
 
-    print "\nNFAs en el archivo leído:"
     for line in file_read:
+        print "\nNFA:"
         print line
         global dic
         dic = lineToDictionary(line)
-        # print dic
 
         findTransitions()
 
-        # formatoBonito()
         formato = format()
         sizeFormato = len(formato)
         count = 0
-        c = 0
 
         formato = sortInitialState(formato)
 
+        print "DFA:"
         final = ""
         finished = False
         for a in formato:
-            # file_write.write()
-            toprint = str(a).replace("'", "")  # .replace(" ","")
+            toprint = str(a).replace("'", "")
 
-            sizePrint = len(toprint)
             final = ""
             if count == 0:
                 final += "{"
@@ -58,9 +57,11 @@ def main():
                     else:
                         final += i
                 count += 1
-                file_write.write(final)
+                print final
+                file_write.write(final + "\n")
 
-        final += "}\n"
+        final += "}\n\n"
+        print final
         file_write.write(final)
 
 
@@ -72,13 +73,11 @@ def sortInitialState(lista):
 
             if pos == 0:
                 temp = a
-                a = lista[0]
                 lista[0] = temp
                 pos += 1
 
             elif pos == 1:
                 temp = a
-                a = lista[1]
                 lista[1] = temp
                 pos = -1
 
@@ -165,17 +164,14 @@ def lineToDictionary(line):
 def findTransitions():
 
     arr = dic.items()
-    # print arr
     for state in arr:
         destiny = state[1]
-        # print destiny
 
         for half in destiny:
             key = ""
             for tag in half:
                 key += tag
 
-            # print key
             if not dic.has_key(key) and key != "":
                 des = [[], []]
                 dic[key] = des
